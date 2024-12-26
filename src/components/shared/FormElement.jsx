@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import {useState} from "react";
+import {FaStar} from "react-icons/fa";
 
 const FormElement = ({type, label, placeholder, options, fieldRef, hasError}) => {
     const classes = "form-control w-full px-3 py-1.5 text-gray-700 rounded border border-solid border-gray-300 focus:border focus:outline-secondary"
@@ -98,6 +99,39 @@ const FormElement = ({type, label, placeholder, options, fieldRef, hasError}) =>
                         ))}
                     </select>
                 );
+            case "starRating": {
+                const [rating, setRating] = useState(null);
+                const [hover, setHover] = useState(null);
+
+                return (
+                    <div className="flex">
+                        {
+                            [...Array(5)].map((star, i) => {
+                                const ratingValue = i + 1;
+                                return (
+                                    <label key={ratingValue}>
+                                        <input
+                                            type="radio"
+                                            value={ratingValue}
+                                            className="hidden"
+                                            onClick={() => {
+                                                fieldRef.onChange(ratingValue.toString());
+                                                setRating(ratingValue.toString());
+                                            }}
+                                        />
+                                        <FaStar
+                                            size={50}
+                                            color={ratingValue <= (hover || rating) ? "#ffd770" : "#e4e5e9"}
+                                            className="cursor-pointer transition-colors duration-200"
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(null)}
+                                        />
+                                    </label>
+                                );
+                            })}
+                    </div>
+                );
+            }
             default:
                 return (
                     <input
@@ -124,7 +158,7 @@ const FormElement = ({type, label, placeholder, options, fieldRef, hasError}) =>
 FormElement.propTypes = {
     type: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     fieldRef: PropTypes.object.isRequired,
     options: PropTypes.array,
     hasError: PropTypes.bool.isRequired,

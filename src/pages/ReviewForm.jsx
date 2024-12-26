@@ -11,6 +11,7 @@ const ReviewForm = () => {
     } = useForm({
         defaultValues: {
             subject: "",
+            rating: "",
             term: "",
             workload: "",
             comment: "",
@@ -44,6 +45,19 @@ const ReviewForm = () => {
                                         fieldRef={field}
                                         hasError={errors.subject?.type === "required"}
                                         options={mockSubjectSuggestions}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="rating"
+                                control={control}
+                                rules={{required: true}}
+                                render={({field}) => (
+                                    <FormElement
+                                        type="starRating"
+                                        label="評価"
+                                        fieldRef={field}
+                                        hasError={errors.rating?.type === "required"}
                                     />
                                 )}
                             />
