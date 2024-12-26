@@ -1,9 +1,11 @@
-import {Link, useLocation} from "react-router-dom";
-import ProjectLogo from "../../assets/project-logo.svg"
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import ProjectLogo from "../../assets/project-logo.svg";
 import {HashLink} from "react-router-hash-link";
+import {MdAddComment} from "react-icons/md";
 
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -57,11 +59,13 @@ const Navbar = () => {
                         {/* Add Reviews Button */}
                         <div>
                             <button
-                                className="bg-gradient-to-r from-primary to-secondary hover:bg-bg-gradient-to-r
+                                className="flex items-center gap-1 bg-gradient-to-r from-primary to-secondary hover:bg-bg-gradient-to-r
                 hover:from-secondary hover:bg-primary transition-all duration-600 text-white px-3
                 py-1 rounded-md"
+                                onClick={() => navigate("/reviews/new")}
                             >
-                                + Add Reviews
+                                <MdAddComment/>
+                                投稿
                             </button>
                         </div>
                     </div>

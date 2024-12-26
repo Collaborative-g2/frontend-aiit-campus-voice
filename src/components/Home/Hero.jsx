@@ -1,23 +1,12 @@
 import DiscussionMovie from "../../assets/discussion.mp4";
 import {AiOutlineSearch} from "react-icons/ai";
 import {useState} from "react";
+import {mockSubjectSuggestions} from "../../data/seeds.js";
 
 const Hero = () => {
     const [inputValue, setInputValue] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-
-    const mockSubjectSuggestions = [
-        "ネットワーク特論",
-        "オブジェクト指向プログラミング特論",
-        "フレームワーク開発特論",
-        "情報セキュリティ特論",
-        "ソフトウェア工学特論",
-        "データ分析特論",
-        "クラウドサーバ構築特論",
-        "クラウドインフラ構築特論",
-        "コラボレイティブ開発特論",
-    ];
 
     const handleInputChange = (e) => {
         const value = e.target.value;
