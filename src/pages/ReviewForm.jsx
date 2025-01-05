@@ -6,6 +6,7 @@ import {mockSubjectSuggestions} from "../data/seeds.js";
 import {useState} from "react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+import {useNavigate} from "react-router-dom";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -27,6 +28,7 @@ const ReviewForm = () => {
     const [modalMessage, setModalMessage] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [statusCode, setStatusCode] = useState(null);
+    const navigate = useNavigate();
 
     // Set up Mock API using MockAdapter to intercept HTTP requests and return mock data
     const mock = new MockAdapter(axios);
@@ -151,7 +153,7 @@ const ReviewForm = () => {
                                     <p className="text-gray-700 mb-4">{modalMessage}</p>
                                     <button
                                         onClick={() =>
-                                            setIsModalOpen(false)
+                                            statusCode === 200 ? (navigate("/#latest-reviews")) : (setIsModalOpen(false))
                                         }
                                         className={`mt-4 ${
                                             statusCode === 200
