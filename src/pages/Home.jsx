@@ -1,6 +1,13 @@
 import Hero from "../components/Home/Hero.jsx";
+import {useEffect} from "react";
 
 const Home = () => {
+    useEffect(() => {
+        if (window.location.hash === "#latest-reviews") {
+            document.getElementById("latest-reviews")?.scrollIntoView({behavior: "smooth"});
+        }
+    }, []);
+
     return (
         <>
             <div>
