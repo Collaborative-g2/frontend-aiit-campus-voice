@@ -47,7 +47,7 @@ const Navbar = () => {
                                 </li>
                                 <li>
                                     <HashLink
-                                        to="/#contact"
+                                        to="https://docs.google.com/forms/d/e/1FAIpQLSdlfVz0WBKD_ML_IqtqoSKAGtAqzzSjZmSB4pHTVQL7KeFGVA/viewform?usp=dialog"
                                         className={location.hash === "#contact" ? "active" : ""}
                                         smooth
                                     >
