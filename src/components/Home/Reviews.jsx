@@ -66,7 +66,7 @@ const Reviews = () => {
       <Slider {...settings}>
         {recentReviews.map((review) => (
             <div key={review.subjectId} className="p-6 bg-gray-200 rounded-2xl shadow-xl max-w-lg">
-            <div class="flex justify-center gap-4">
+            <div className="flex justify-center gap-4">
                 <div>
                     <Avatar className="w-32 h-32" {... genConfig(review.subjectId) } />
                 </div>
