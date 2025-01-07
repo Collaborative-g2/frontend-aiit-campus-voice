@@ -1,6 +1,7 @@
 import Hero from "../components/Home/Hero.jsx";
 import {useEffect} from "react";
 import Reviews from "../components/Home/Reviews.jsx";
+import About from "../components/Home/About.jsx";
 
 const Home = () => {
     useEffect(() => {
@@ -17,9 +18,10 @@ const Home = () => {
                     Latest Reviews
                 </section> */}
                 <Reviews/>
-                <section id="about" className="h-[500px] bg-orange-300 scroll-mt-10 py-10">
-                    About
+                <section id="about" className="bg-orange-300 scroll-mt-10 py-10">
+                    <About/>
                 </section>
+                
                 {/* <section id="contact" className="h-[500px] bg-white scroll-mt-10 py-10">
                     Contact
                 </section> */}
