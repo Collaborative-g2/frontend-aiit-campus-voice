@@ -14,14 +14,13 @@ const Home = () => {
         <>
             <div>
                 <Hero/>
-                {/* <section id="latest-reviews" className="h-[500px] bg-white scroll-mt-10 py-10">
-                    Latest Reviews
-                </section> */}
-                <Reviews/>
+                <section id="latest-reviews" className="h-[500px] bg-white scroll-mt-10 py-10">
+                    <Reviews/>
+                </section>
                 <section id="about" className="bg-orange-300 scroll-mt-10 py-10">
                     <About/>
                 </section>
-                
+
                 {/* <section id="contact" className="h-[500px] bg-white scroll-mt-10 py-10">
                     Contact
                 </section> */}
