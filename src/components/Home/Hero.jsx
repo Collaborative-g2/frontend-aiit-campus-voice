@@ -20,7 +20,7 @@ const Hero = () => {
 
     if (value) {
       try {
-        const response = await axios.get(`${ACV_API_BASE_URL}/Prod/search/`, {
+        const response = await axios.get(`${ACV_API_BASE_URL}/Prod/subjects/`, {
           params: { q: value },
         });
 
