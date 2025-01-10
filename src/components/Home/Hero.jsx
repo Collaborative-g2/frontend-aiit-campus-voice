@@ -2,6 +2,7 @@ import DiscussionMovie from "../../assets/discussion.mp4";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -13,6 +14,7 @@ const Hero = () => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = async (e) => {
     const value = e.target.value;
@@ -41,6 +43,7 @@ const Hero = () => {
   const handleSuggestionClick = (suggestion) => {
     setInputValue(suggestion.subject_name);
     setShowSuggestions(false);
+    navigate("/reviews")
   };
 
   return (
