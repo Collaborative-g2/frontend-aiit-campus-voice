@@ -40,10 +40,10 @@ const Hero = () => {
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion.subject_name);
+  const handleSuggestionClick = (selectedSubject) => {
+    setInputValue(selectedSubject.subject_name);
     setShowSuggestions(false);
-    navigate("/reviews")
+    navigate('/reviews', {state: {selectedSubject}});
   };
 
   return (

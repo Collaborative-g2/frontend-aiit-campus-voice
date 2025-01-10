@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import ReviewCard from "../components/ReviewList/ReviewCard.jsx";
+import { useLocation } from "react-router-dom";
+import {FaStar} from "react-icons/fa";
 
 const ReviewList = () => {
+  const location = useLocation();
+  const selectedSubject = location.state?.selectedSubject;
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,9 +75,25 @@ const ReviewList = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto p-4">
+        <div className="flex items-center justify-between flex-col lg:flex-row p-4">
+          <div>
+            <div><h1 className="font-extrabold text-gray-800">講義名: {selectedSubject.subject_name}</h1></div>
+            <div><h2 className="font-semibold text-gray-800">教員名: {selectedSubject.professor}</h2></div>
+          </div>
+          <div className="flex items-center flex-col lg:flex-row mt-4 lg:mt-0">
+            <strong className="font-semibold text-gray-800">平均評価：</strong>
+            <div className="flex">
+              {Array(5)
+                  .fill()
+                  .map((_, index) => (
+                      <FaStar key={index} className="text-yellow-500" size={50}/>
+                  ))}
+            </div>
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {data.map((review, index) => (
-            <ReviewCard key={`${review.id}-${index}`} review={review} />
+              <ReviewCard key={`${review.id}-${index}`} review={review}/>
           ))}
         </div>
         <div ref={observerRef} className="h-4"></div>
