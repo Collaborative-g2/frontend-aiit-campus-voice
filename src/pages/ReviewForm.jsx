@@ -19,7 +19,6 @@ const ReviewForm = () => {
         defaultValues: {
             subject: "",
             rating: "",
-            term: "",
             workload: "",
             comment: "",
         },
@@ -88,21 +87,6 @@ const ReviewForm = () => {
                                         label="評価"
                                         fieldRef={field}
                                         hasError={errors.rating?.type === "required"}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="term"
-                                control={control}
-                                rules={{required: true}}
-                                render={({field}) => (
-                                    <FormElement
-                                        type="select"
-                                        label="ターム"
-                                        placeholder="選択してください"
-                                        fieldRef={field}
-                                        options={[{value: "1"}, {value: "2"}, {value: "3"}, {value: "4"}]}
-                                        hasError={errors.term?.type === "required"}
                                     />
                                 )}
                             />
