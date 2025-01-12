@@ -79,15 +79,36 @@ const FormElement = ({type, label, placeholder, options, fieldRef, hasError}) =>
                     </>
                 );
             }
-            case "textarea":
+            case "textarea": {
+                const [textValue, setTextValue] = useState('');
+                const maxLength = 200;
+
+                const handleTextChange = (e) => {
+                    const value = e.target.value;
+                    if (value.length <= maxLength) {
+                        fieldRef.onChange(value)
+                        setTextValue(value);
+                    }
+                };
+
                 return (
-                    <textarea
-                        className={classes}
-                        rows="3"
-                        placeholder={placeholder}
-                        {...fieldRef}
-                    />
+                    <>
+                        <textarea
+                            className={classes}
+                            rows="3"
+                            placeholder={placeholder}
+                            {...fieldRef}
+                            maxLength={maxLength}
+                            onChange={handleTextChange}
+                        />
+                        <div
+                            className={`text-sm text-gray-500 text-right ${textValue.length === maxLength ? 'text-red-500' : ''}`}
+                        >
+                            {textValue.length} / {maxLength} 文字
+                        </div>
+                    </>
                 );
+            }
             case "select":
                 return (
                     <select className={classes} {...fieldRef}>
