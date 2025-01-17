@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReviewCard from "../components/ReviewList/ReviewCard.jsx";
 import { useLocation } from "react-router-dom";
-import {FaStar} from "react-icons/fa";
+import StarRating from "../components/shared/StarRating.jsx";
 
 const ReviewList = () => {
   const location = useLocation();
@@ -21,6 +21,7 @@ const ReviewList = () => {
 
     try {
       const newData = Array.from({ length: 10 }, (_, i) => ({
+        average: 3.9,
         id: (page - 1) * 10 + i + 1,
         subject_id: "ISA036",
         subject_name: "",
@@ -77,23 +78,32 @@ const ReviewList = () => {
       <div className="container mx-auto p-4">
         <div className="flex items-center justify-between flex-col lg:flex-row p-4">
           <div>
-            <div><h1 className="font-extrabold text-gray-800">講義名: {selectedSubject.subject_name}</h1></div>
-            <div><h2 className="font-semibold text-gray-800">教員名: {selectedSubject.professor}</h2></div>
+            <div>
+              <h1 className="font-extrabold text-gray-800">
+                講義名: {selectedSubject.subject_name}
+              </h1>
+            </div>
+            <div>
+              <h2 className="font-semibold text-gray-800">
+                教員名: {selectedSubject.professor}
+              </h2>
+            </div>
           </div>
-          <div className="flex items-center flex-col lg:flex-row mt-4 lg:mt-0">
-            <strong className="font-semibold text-gray-800">平均評価：</strong>
+          <div className="flex items-center flex-col lg:flex-row mt-4 lg:mt-0 space-x-4">
+            <strong className="font-semibold text-gray-800">
+              平均評価：{data?.length ? data.at(0).average : 0}
+            </strong>
             <div className="flex">
-              {Array(5)
-                  .fill()
-                  .map((_, index) => (
-                      <FaStar key={index} className="text-yellow-500" size={50}/>
-                  ))}
+              <StarRating
+                average={data?.length ? data.at(0).average : 0}
+                size={50}
+              />
             </div>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {data.map((review, index) => (
-              <ReviewCard key={`${review.id}-${index}`} review={review}/>
+            <ReviewCard key={`${review.id}-${index}`} review={review} />
           ))}
         </div>
         <div ref={observerRef} className="h-4"></div>
