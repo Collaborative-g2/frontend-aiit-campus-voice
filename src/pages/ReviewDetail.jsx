@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { MdOutlineRateReview } from "react-icons/md";
 import Avatar, { genConfig } from 'react-nice-avatar'
 
