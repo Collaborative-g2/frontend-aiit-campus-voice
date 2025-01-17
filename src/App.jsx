@@ -4,6 +4,7 @@ import NoPage from "./pages/NoPage.jsx";
 import Home from "./pages/Home.jsx";
 import ReviewForm from "./pages/ReviewForm.jsx";
 import ReviewList from "./pages/ReviewList.jsx";
+import ReviewDetail from "./pages/ReviewDetail.jsx";
 
 const App = () => {
     return (
@@ -14,6 +15,7 @@ const App = () => {
                         <Route index element={<Home/>}/>
                         <Route path="/reviews/new" element={<ReviewForm/>}></Route>
                         <Route path="/reviews" element={<ReviewList/>}></Route>
+                        <Route path="/review/:id" element={<ReviewDetail/>}></Route>
                         <Route path="*" element={<NoPage/>}/>
                     </Route>
                 </Routes>
