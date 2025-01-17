@@ -29,14 +29,16 @@ const ReviewForm = () => {
   const [statusCode, setStatusCode] = useState(null);
   const navigate = useNavigate();
 
-  // Set up Mock API using MockAdapter to intercept HTTP requests and return mock data
-  const mock = new MockAdapter(axios);
-  mock.onPost(`${ACV_API_BASE_URL}/Prod/review/`).reply(200, {
-    message: "投稿が完了しました！",
-  });
+
 
   const onSubmit = async (formData) => {
     try {
+      // Set up Mock API using MockAdapter to intercept HTTP requests and return mock data
+      const mock = new MockAdapter(axios);
+      mock.onPost(`${ACV_API_BASE_URL}/Prod/review/`).reply(200, {
+        message: "投稿が完了しました！",
+      });
+
       const response = await axios.post(
         `${ACV_API_BASE_URL}/Prod/review/`,
         formData,
