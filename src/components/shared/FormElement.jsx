@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import axios from "axios";
+
+const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
 const FormElement = ({
   type,
@@ -21,24 +24,34 @@ const FormElement = ({
         const [showSuggestions, setShowSuggestions] = useState(false);
         const [isSuggestionSelected, setIsSuggestionSelected] = useState(false);
 
-        const handleInputChange = (e) => {
+        const handleInputChange = async (e) => {
           const value = e.target.value;
           setInputValue(value);
 
           if (value) {
-            const filtered = options.filter((option) => option.includes(value));
-            // The subject suggestion list is limited to 10 items.
-            setSuggestions(filtered.slice(0, 10));
-            setShowSuggestions(true);
+            try {
+              const response = await axios.get(`${ACV_API_BASE_URL}/Prod/subjects/`, {
+                params: { q: value },
+              });
+
+              // The subject suggestion list is limited to 10 items.
+              setSuggestions(response.data.slice(0, 10));
+              setShowSuggestions(true);
+            } catch (error) {
+              console.error("Error fetching suggestions:", error);
+              setSuggestions([]);
+              setShowSuggestions(false);
+            }
           } else {
+            setSuggestions([]);
             setShowSuggestions(false);
           }
         };
 
-        const handleOptionClick = (option) => {
-          fieldRef.onChange(option);
+        const handleOptionClick = (suggestion) => {
+          fieldRef.onChange(suggestion.subject_id);
           setIsSuggestionSelected(true);
-          setInputValue(option);
+          setInputValue(suggestion.subject_name);
           setShowSuggestions(false);
           setSuggestions([]);
         };
@@ -65,16 +78,16 @@ const FormElement = ({
             {showSuggestions && (
               <ul className="relative bg-white border mt-1 max-h-60 overflow-y-auto">
                 {suggestions.length > 0 ? (
-                  suggestions.map((option, index) => (
+                  suggestions.map((suggestion, index) => (
                     <li
                       key={index}
                       className="p-2 cursor-pointer hover:bg-gray-200"
                       onMouseDown={(e) => {
                         e.preventDefault();
-                        handleOptionClick(option);
+                        handleOptionClick(suggestion);
                       }}
                     >
-                      {option}
+                      {suggestion.subject_name}
                     </li>
                   ))
                 ) : (

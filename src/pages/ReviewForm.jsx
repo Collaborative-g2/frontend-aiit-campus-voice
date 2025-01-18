@@ -2,7 +2,6 @@ import { Controller, useForm } from "react-hook-form";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import FormElement from "../components/shared/FormElement.jsx";
 import { MdOutlineRateReview } from "react-icons/md";
-import { mockSubjectSuggestions } from "../data/seeds.js";
 import { useState } from "react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -17,7 +16,7 @@ const ReviewForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      subject: "",
+      subject_id: "",
       rating: "",
       workload: "",
       comment: "",
@@ -70,7 +69,7 @@ const ReviewForm = () => {
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
-                name="subject"
+                name="subject_id"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
@@ -79,8 +78,7 @@ const ReviewForm = () => {
                     label="教科名"
                     placeholder="教科名を入力してください"
                     fieldRef={field}
-                    hasError={errors.subject?.type === "required"}
-                    options={mockSubjectSuggestions}
+                    hasError={errors.subject_id?.type === "required"}
                   />
                 )}
               />
