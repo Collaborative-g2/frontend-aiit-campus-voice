@@ -4,7 +4,6 @@ import FormElement from "../components/shared/FormElement.jsx";
 import { MdOutlineRateReview } from "react-icons/md";
 import { useState } from "react";
 import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 import { useNavigate } from "react-router-dom";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
@@ -17,7 +16,7 @@ const ReviewForm = () => {
   } = useForm({
     defaultValues: {
       subject_id: "",
-      rating: "",
+      rating: null,
       workload: "",
       comment: "",
     },
@@ -28,23 +27,22 @@ const ReviewForm = () => {
   const [statusCode, setStatusCode] = useState(null);
   const navigate = useNavigate();
 
-
-
   const onSubmit = async (formData) => {
+    const jsonData = JSON.stringify(formData);
+    
     try {
-      // Set up Mock API using MockAdapter to intercept HTTP requests and return mock data
-      const mock = new MockAdapter(axios);
-      mock.onPost(`${ACV_API_BASE_URL}/Prod/review/`).reply(200, {
-        message: "投稿が完了しました！",
-      });
-
       const response = await axios.post(
-        `${ACV_API_BASE_URL}/Prod/review/`,
-        formData,
-      );
+          `${ACV_API_BASE_URL}/Prod/review`,
+          jsonData,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          });
       setStatusCode(response.status);
+
       if (response.status === 200) {
-        setModalMessage(response.data.message);
+        setModalMessage("投稿が完了しました！");
       } else {
         setModalMessage("予期しないエラーが発生しました");
       }
