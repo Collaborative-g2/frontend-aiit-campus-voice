@@ -1,53 +1,40 @@
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaUser, FaBook, FaTasks, FaCommentDots, FaStar } from "react-icons/fa";
 import Avatar, { genConfig } from 'react-nice-avatar'
+import TruncateText from "../shared/TruncateText.jsx";
 
-const recentReviews = [
-  {
-    subjectId: "ISA036",
-    subjectName: "データマネジメント特論",
-    professor: "浪岡保男",
-    workload: "課題が多くて大変だった",
-    comment: "課題が多くて大変だったけどPBLに向けた良い経験ができた。",
-    rating: 5,
-  },
-  {
-    subjectId: "ISA101",
-    subjectName: "人工知能基礎論",
-    professor: "山田太郎",
-    workload: "毎週レポートがあり大変だった",
-    comment: "レポートが多くて大変だったが、AIの基礎をしっかり学べた。",
-    rating: 4,
-  },
-  {
-    subjectId: "ISA202",
-    subjectName: "データベース応用論",
-    professor: "佐藤花子",
-    workload: "グループワークが中心で時間がかかった",
-    comment: "グループワークを通じて実践的なスキルが身についた。",
-    rating: 5,
-  },
-  {
-    subjectId: "ISA303",
-    subjectName: "ネットワークセキュリティ",
-    professor: "田中一郎",
-    workload: "試験勉強が大変だった",
-    comment: "試験範囲が広くて勉強が大変だったが、セキュリティの重要性を理解できた。",
-    rating: 4,
-  },
-  {
-    subjectId: "ISA404",
-    subjectName: "プログラミング演習",
-    professor: "鈴木二郎",
-    workload: "週ごとに新しい課題があった",
-    comment: "課題の量は多かったが、実践的なプログラミング力がついた。",
-    rating: 5,
-  },
-];
+const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
 const Reviews = () => {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`${ACV_API_BASE_URL}/Prod/reviews?subject_id=`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setReviews(data.reviews); // Assuming the API returns an array of reviews
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -58,45 +45,79 @@ const Reviews = () => {
     autoplaySpeed: 3000,
     pauseOnHover: true,
     centerMode: true,
+    responsive: [
+      {
+        breakpoint: 768, // Small screens (mobile)
+        settings: {
+          slidesToShow: 1,
+          centerMode: false,
+        },
+      },
+      {
+        breakpoint: 1024, // Medium screens (tablet)
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
   };
 
+  if (loading) {
+    return <p className="text-center">読み込み中...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500">エラーが発生しました: {error}</p>;
+  }
+
   return (
-    <div className="container mx-auto p-6 mb-8">
-      <h2 className="text-2xl font-bold mb-6">最近の口コミ</h2>
-      <Slider {...settings}>
-        {recentReviews.map((review) => (
-            <div key={review.subjectId} className="p-6 bg-gray-200 rounded-2xl shadow-xl max-w-lg">
-            <div className="flex justify-center gap-4">
-                <div>
-                    <Avatar className="w-32 h-32" {... genConfig(review.subjectId) } />
-                </div>
-                <div>
-                <h3 className="text-xl font-semibold mb-2 text-left flex items-center">
-                <FaBook className="text-blue-500 mr-2" /> {review.subjectName}
-                </h3>
-                <p className="text-gray-700 text-left flex items-center">
+  <div className="container mx-auto p-4 sm:p-6 mb-8">
+    <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center sm:text-left">
+      最近の口コミ
+    </h2>
+    <Slider {...settings}>
+      {reviews.map((review) => (
+        <div
+          key={review.subjectId}
+          className="p-4 sm:p-6 bg-gray-200 rounded-2xl shadow-xl max-w-md mx-auto"
+        >
+          <div className="flex flex-col sm:flex-row justify-center sm:justify-start gap-4">
+            <div className="flex justify-center sm:justify-start">
+              <Avatar
+                className="w-20 h-20 sm:w-32 sm:h-32"
+                {...genConfig(review.subjectId)}
+              />
+            </div>
+            <div>
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-center sm:text-left flex items-center">
+                <FaBook className="text-blue-500 mr-2" /> {review.subject_name}
+              </h3>
+              <p className="text-gray-700 text-center sm:text-left flex items-center">
                 <FaUser className="text-green-500 mr-2" />
                 <strong className="font-semibold">教員：</strong> {review.professor}
-                </p>
-                <p className="text-gray-700 text-left flex items-center">
+              </p>
+              <p className="text-gray-700 text-center sm:text-left flex items-center">
                 <FaTasks className="text-yellow-500 mr-2" />
-                <strong className="font-semibold whitespace-nowrap">課題量：</strong> {review.workload}
-                </p>
-                <p className="text-gray-700 text-left flex items-center">
+                <strong className="font-semibold whitespace-nowrap">課題量：</strong>{" "}
+                {TruncateText(review.workload)}
+              </p>
+              <p className="text-gray-700 text-center sm:text-left flex items-center">
                 <FaCommentDots className="text-purple-500 mr-2" />
-                <strong className="font-semibold whitespace-nowrap">コメント：</strong> {review.comment}
-                </p>
-                <p className="ttext-gray-700 text-left flex items-center">
+                <strong className="font-semibold whitespace-nowrap">コメント：</strong>{" "}
+                {TruncateText(review.comment)}
+              </p>
+              <p className="text-gray-700 text-center sm:text-left flex items-center">
                 <FaStar className="text-yellow-500 mr-2" />
-                <strong className="font-semibold">評価：</strong> {"⭐".repeat(review.rating)}
-                </p>
-            </div>
+                <strong className="font-semibold">評価：</strong>{" "}
+                {"⭐".repeat(review.rating)}
+              </p>
             </div>
           </div>
-        ))}
-      </Slider>
-    </div>
-  );
+        </div>
+      ))}
+    </Slider>
+  </div>
+);
 };
 
 export default Reviews;
