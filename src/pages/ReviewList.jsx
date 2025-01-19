@@ -5,6 +5,7 @@ import StarRating from "../components/shared/StarRating.jsx";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import { FaBook, FaUser } from "react-icons/fa";
+import BearBowing from "../assets/bear-bowing.png";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -33,7 +34,7 @@ const ReviewList = () => {
           params: { subject_id: selectedSubject.subject_id },
         });
 
-        setAverageRating(response.data.average_rating)
+        setAverageRating(response.data.average_rating);
         setData((prevData) => [...prevData, ...response.data.reviews]);
       } catch (error) {
         console.error("Error fetching data:", error.message);
@@ -83,11 +84,11 @@ const ReviewList = () => {
         <div className="flex items-center justify-between flex-col lg:flex-row p-4">
           <div>
             <h1 className="flex items-center font-extrabold text-gray-800">
-              <FaBook className="text-blue-500 mr-2"/>
+              <FaBook className="text-blue-500 mr-2" />
               講義名: {selectedSubject.subject_name}
             </h1>
             <h2 className="flex items-center font-semibold text-gray-800">
-              <FaUser className="text-green-500 mr-2"/>
+              <FaUser className="text-green-500 mr-2" />
               教員名: {selectedSubject.professor}
             </h2>
           </div>
@@ -96,23 +97,38 @@ const ReviewList = () => {
               平均評価：{averageRating}
             </strong>
             <div className="flex">
-              <StarRating
-                average={averageRating}
-                size={50}
-              />
+              <StarRating average={averageRating} size={50} />
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.map((review) => (
-            <ReviewCard key={`${review.id}`} review={review} />
-          ))}
-        </div>
+        {isLoading && (
+          <div className="w-full px-6 py-3 flex justify-center items-center">
+            <ThreeDots color="#F0951F" height={80} width={80} />
+          </div>
+        )}
+        {data.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.map((review) => (
+              <ReviewCard key={`${review.id}`} review={review} />
+            ))}
+          </div>
+        ) : (
+          !isLoading && (
+            <div className="flex flex-col sm:flex-row items-center justify-center text-gray-600 mt-4">
+              <img
+                src={BearBowing}
+                alt="bear-bowing"
+                className="w-40 h-40 sm:w-48 sm:h-48 mb-4 sm:mb-0 sm:mr-4"
+              />
+              <div className="text-center sm:text-left text-2xl sm:text-3xl">
+                <p className="font-mono">申し訳ございません</p>
+                <p className="font-mono">{selectedSubject.subject_name}には</p>
+                <p className="font-mono">まだ口コミが存在しません</p>
+              </div>
+            </div>
+          )
+        )}
         <div ref={observerRef} className="h-4"></div>
-        {isLoading &&
-            <div className="w-full px-6 py-3 flex justify-center items-center">
-              <ThreeDots color="#F0951F" height={80} width={80}/>
-            </div>}
       </div>
     </div>
   );
