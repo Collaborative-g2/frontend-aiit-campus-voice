@@ -4,8 +4,8 @@ import FormElement from "../components/shared/FormElement.jsx";
 import { MdOutlineRateReview } from "react-icons/md";
 import { useState } from "react";
 import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -17,7 +17,7 @@ const ReviewForm = () => {
   } = useForm({
     defaultValues: {
       subject_id: "",
-      rating: "",
+      rating: null,
       workload: "",
       comment: "",
     },
@@ -25,26 +25,29 @@ const ReviewForm = () => {
 
   const [modalMessage, setModalMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusCode, setStatusCode] = useState(null);
   const navigate = useNavigate();
 
-
-
   const onSubmit = async (formData) => {
-    try {
-      // Set up Mock API using MockAdapter to intercept HTTP requests and return mock data
-      const mock = new MockAdapter(axios);
-      mock.onPost(`${ACV_API_BASE_URL}/Prod/review/`).reply(200, {
-        message: "投稿が完了しました！",
-      });
+    if (isSubmitting) return;
 
+    setIsSubmitting(true);
+    const jsonData = JSON.stringify(formData);
+
+    try {
       const response = await axios.post(
-        `${ACV_API_BASE_URL}/Prod/review/`,
-        formData,
-      );
+          `${ACV_API_BASE_URL}/Prod/review`,
+          jsonData,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          });
       setStatusCode(response.status);
+
       if (response.status === 200) {
-        setModalMessage(response.data.message);
+        setModalMessage("投稿が完了しました！");
       } else {
         setModalMessage("予期しないエラーが発生しました");
       }
@@ -53,6 +56,7 @@ const ReviewForm = () => {
       setModalMessage("送信中にエラーが発生しました");
     } finally {
       setIsModalOpen(true);
+      setIsSubmitting(false);
     }
   };
 
@@ -123,16 +127,24 @@ const ReviewForm = () => {
                   />
                 )}
               />
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-secondary text-white font-medium rounded shadow-md hover:bg-primary hover:shadow-lg focus:bg-secondary focus:outline-none active:primary"
-              >
-                投稿
-              </button>
+              {
+                isSubmitting ? (
+                    <div className="w-full px-6 py-3 flex justify-center items-center">
+                      <ThreeDots color="#F0951F" height={25} width={50}></ThreeDots>
+                    </div>
+                ) : (
+                    <button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-secondary text-white font-medium rounded shadow-md hover:bg-primary hover:shadow-lg focus:bg-secondary focus:outline-none active:primary"
+                    >
+                      投稿
+                    </button>
+                )
+              }
             </form>
             {/* Modal */}
             {isModalOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded shadow-lg w-80 flex flex-col items-center">
                   {statusCode === 200 ? (
                     <FaCheckCircle className="text-green-500 text-4xl mb-4" />

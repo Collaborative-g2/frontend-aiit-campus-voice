@@ -157,7 +157,7 @@ const FormElement = ({
                     value={ratingValue}
                     className="hidden"
                     onClick={() => {
-                      fieldRef.onChange(ratingValue.toString());
+                      fieldRef.onChange(ratingValue);
                       setRating(ratingValue.toString());
                     }}
                   />
