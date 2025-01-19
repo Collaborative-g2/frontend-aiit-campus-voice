@@ -3,6 +3,7 @@ import ReviewCard from "../components/ReviewList/ReviewCard.jsx";
 import { useLocation } from "react-router-dom";
 import StarRating from "../components/shared/StarRating.jsx";
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -105,7 +106,10 @@ const ReviewList = () => {
           ))}
         </div>
         <div ref={observerRef} className="h-4"></div>
-        {isLoading && <p className="text-center text-gray-500">Loading...</p>}
+        {isLoading &&
+            <div className="w-full px-6 py-3 flex justify-center items-center">
+              <ThreeDots color="#F0951F" height={80} width={80}/>
+            </div>}
       </div>
     </div>
   );
