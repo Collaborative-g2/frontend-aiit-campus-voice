@@ -5,6 +5,7 @@ import { MdOutlineRateReview } from "react-icons/md";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -24,12 +25,16 @@ const ReviewForm = () => {
 
   const [modalMessage, setModalMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusCode, setStatusCode] = useState(null);
   const navigate = useNavigate();
 
   const onSubmit = async (formData) => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
     const jsonData = JSON.stringify(formData);
-    
+
     try {
       const response = await axios.post(
           `${ACV_API_BASE_URL}/Prod/review`,
@@ -51,6 +56,7 @@ const ReviewForm = () => {
       setModalMessage("送信中にエラーが発生しました");
     } finally {
       setIsModalOpen(true);
+      setIsSubmitting(false);
     }
   };
 
@@ -121,16 +127,24 @@ const ReviewForm = () => {
                   />
                 )}
               />
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-secondary text-white font-medium rounded shadow-md hover:bg-primary hover:shadow-lg focus:bg-secondary focus:outline-none active:primary"
-              >
-                投稿
-              </button>
+              {
+                isSubmitting ? (
+                    <div className="w-full px-6 py-3 flex justify-center items-center">
+                      <ThreeDots color="#F0951F" height={25} width={50}></ThreeDots>
+                    </div>
+                ) : (
+                    <button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-secondary text-white font-medium rounded shadow-md hover:bg-primary hover:shadow-lg focus:bg-secondary focus:outline-none active:primary"
+                    >
+                      投稿
+                    </button>
+                )
+              }
             </form>
             {/* Modal */}
             {isModalOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded shadow-lg w-80 flex flex-col items-center">
                   {statusCode === 200 ? (
                     <FaCheckCircle className="text-green-500 text-4xl mb-4" />
