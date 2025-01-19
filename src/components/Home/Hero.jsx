@@ -64,7 +64,7 @@ const Hero = () => {
               {/* text content section */}
               <div className="text-white text-center font-mono">
                 <p className="font-semibold text-3xl">
-                  講義の評価が一目でわかる!
+                  講義評価が一目でわかる!
                 </p>
                 <p className="font-medium">
                   簡単検索であなたにぴったりの授業を
