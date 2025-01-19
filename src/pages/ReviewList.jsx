@@ -2,42 +2,39 @@ import { useEffect, useRef, useState } from "react";
 import ReviewCard from "../components/ReviewList/ReviewCard.jsx";
 import { useLocation } from "react-router-dom";
 import StarRating from "../components/shared/StarRating.jsx";
+import axios from "axios";
+
+const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
 const ReviewList = () => {
   const location = useLocation();
   const selectedSubject = location.state?.selectedSubject;
   const [data, setData] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   // Reference to the Intersection Observer.
   const observerRef = useRef(null);
 
-  // Mock API call
   const fetchData = async (page) => {
     // Prevent new requests while loading.
-    // Add a condition to ensure the page doesn't exceed 3, limited to the mock API.
-    if (isLoading || page > 3) return;
+    if (isLoading || page > 1) return;
     setIsLoading(true);
 
-    try {
-      const newData = Array.from({ length: 10 }, (_, i) => ({
-        average: 3.9,
-        id: (page - 1) * 10 + i + 1,
-        subject_id: "ISA036",
-        subject_name: "",
-        term: "",
-        rating: 5,
-        workload: "課題が多くて大変だった",
-        comment: "課題が多くて大変だったけどPBLに向けた良い経験ができた。",
-        created_at: "",
-      }));
+    if (selectedSubject.subject_id) {
+      try {
+        const response = await axios.get(`${ACV_API_BASE_URL}/Prod/reviews/`, {
+          params: { subject_id: selectedSubject.subject_id },
+        });
 
-      setData((prevData) => [...prevData, ...newData]);
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    } finally {
-      // Clear the flag after loading is complete.
-      setIsLoading(false);
+        setAverageRating(response.data.average_rating)
+        setData((prevData) => [...prevData, ...response.data.reviews]);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      } finally {
+        // Clear the flag after loading is complete.
+        setIsLoading(false);
+      }
     }
   };
 
@@ -55,8 +52,9 @@ const ReviewList = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !isLoading) {
+          // TODO Pagination is not implemented on the back-end, so the front-end will handle it once it's ready.
           // Fetch the next page
-          setPage((prevPage) => prevPage + 1);
+          // setPage((prevPage) => prevPage + 1);
         }
       },
       { threshold: 0.7 }, // Trigger when the element is 70% visible.
@@ -91,19 +89,19 @@ const ReviewList = () => {
           </div>
           <div className="flex items-center flex-col lg:flex-row mt-4 lg:mt-0 space-x-4">
             <strong className="font-semibold text-gray-800">
-              平均評価：{data?.length ? data.at(0).average : 0}
+              平均評価：{averageRating}
             </strong>
             <div className="flex">
               <StarRating
-                average={data?.length ? data.at(0).average : 0}
+                average={averageRating}
                 size={50}
               />
             </div>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.map((review, index) => (
-            <ReviewCard key={`${review.id}-${index}`} review={review} />
+          {data.map((review) => (
+            <ReviewCard key={`${review.id}`} review={review} />
           ))}
         </div>
         <div ref={observerRef} className="h-4"></div>
