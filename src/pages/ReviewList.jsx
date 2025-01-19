@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import StarRating from "../components/shared/StarRating.jsx";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
+import { FaBook, FaUser } from "react-icons/fa";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -77,16 +78,14 @@ const ReviewList = () => {
       <div className="container mx-auto p-4">
         <div className="flex items-center justify-between flex-col lg:flex-row p-4">
           <div>
-            <div>
-              <h1 className="font-extrabold text-gray-800">
-                講義名: {selectedSubject.subject_name}
-              </h1>
-            </div>
-            <div>
-              <h2 className="font-semibold text-gray-800">
-                教員名: {selectedSubject.professor}
-              </h2>
-            </div>
+            <h1 className="flex items-center font-extrabold text-gray-800">
+              <FaBook className="text-blue-500 mr-2"/>
+              講義名: {selectedSubject.subject_name}
+            </h1>
+            <h2 className="flex items-center font-semibold text-gray-800">
+              <FaUser className="text-green-500 mr-2"/>
+              教員名: {selectedSubject.professor}
+            </h2>
           </div>
           <div className="flex items-center flex-col lg:flex-row mt-4 lg:mt-0 space-x-4">
             <strong className="font-semibold text-gray-800">
