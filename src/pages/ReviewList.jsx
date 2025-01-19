@@ -13,14 +13,18 @@ const ReviewList = () => {
   const selectedSubject = location.state?.selectedSubject;
   const [data, setData] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
-  const [page, setPage] = useState(1);
+  // TODO Pagination is not implemented on the back-end, so the front-end will handle it once it's ready.
+  // const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   // Reference to the Intersection Observer.
   const observerRef = useRef(null);
 
-  const fetchData = async (page) => {
+  const fetchData = async () => {
+    // TODO Pagination is not implemented on the back-end, so the front-end will handle it once it's ready.
+    // if (isLoading || page > 1) return;
     // Prevent new requests while loading.
-    if (isLoading || page > 1) return;
+    if (isLoading) return;
+
     setIsLoading(true);
 
     if (selectedSubject.subject_id) {
@@ -42,12 +46,12 @@ const ReviewList = () => {
 
   // Initial data retrieval
   useEffect(() => {
-    fetchData(page)
+    fetchData()
       .then(() => {})
       .catch((error) => {
         console.error("Error fetching data:", error.message);
       });
-  }, [page]);
+  }, []);
 
   // Intersection Observer configuration
   useEffect(() => {
