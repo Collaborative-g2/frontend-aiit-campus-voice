@@ -6,7 +6,7 @@ const About = () => {
     return(
         <>
             <div className="container mx-auto px-4 py-8 bg-orange-300">
-                <h1 className="text-center text-4xl font-extrabold text-gray-700 mb-8 underline">履修登録時に時こんな経験はありませんか？</h1>
+                <h1 className="text-center text-4xl font-extrabold text-gray-700 mb-8 underline">履修登録時にこんな経験はありませんか？</h1>
                 <div className="flex flex-wrap">
                     <div className="w-full md:w-1/3 px-4 mb-6">
                         <div className="bg-white border-2 border-gray-500 rounded-lg shadow pt-6 px-6 pb-2 relative">
