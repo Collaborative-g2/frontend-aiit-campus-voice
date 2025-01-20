@@ -6,12 +6,13 @@ import { FaUser, FaBook, FaTasks, FaCommentDots, FaStar } from "react-icons/fa";
 import Avatar, { genConfig } from 'react-nice-avatar'
 import TruncateText from "../shared/TruncateText.jsx";
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const Reviews = () => {
       } catch (error) {
         setError(error.message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -68,8 +69,10 @@ const Reviews = () => {
     ],
   };
 
-  if (loading) {
-    return <p className="text-center">読み込み中...</p>;
+  if (isLoading) {
+    return  <div className="w-full px-6 py-3 flex justify-center items-center">
+              <ThreeDots color="#F0951F" height={80} width={80} />
+            </div>;
   }
 
   if (error) {
