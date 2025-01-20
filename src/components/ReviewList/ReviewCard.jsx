@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const ReviewCard = ({ review }) => {
   const navigate = useNavigate();
   const handleReviewCardClick = () => {
-    navigate(`/review/${review.id}`);
+    navigate(`/review/${review.id}`, {state: {review}});
   };
 
   return (
