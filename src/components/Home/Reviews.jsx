@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { FaUser, FaBook, FaTasks, FaCommentDots, FaStar } from "react-icons/fa";
 import Avatar, { genConfig } from 'react-nice-avatar'
 import TruncateText from "../shared/TruncateText.jsx";
+import { useNavigate } from "react-router-dom";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -12,6 +13,11 @@ const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const handleSliderReviewCardClick = (review) => {
+    navigate(`/review/${review.id}`, {state: {review}});
+  };
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -78,8 +84,9 @@ const Reviews = () => {
     <Slider {...settings}>
       {reviews.map((review) => (
         <div
-          key={review.subjectId}
+          key={review.id}
           className="p-4 sm:p-6 bg-gray-200 rounded-2xl shadow-xl max-w-md mx-auto"
+          onClick={() => handleSliderReviewCardClick(review)}
         >
           <div className="flex flex-col sm:flex-row justify-center sm:justify-start gap-4">
             <div className="flex justify-center sm:justify-start">
