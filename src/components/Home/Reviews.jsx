@@ -80,7 +80,7 @@ const Reviews = () => {
   }
 
   return (
-  <div className="container mx-auto p-4 sm:p-6 mb-8">
+  <div className="container mx-auto p-2 sm:p-6 mb-8">
     <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center sm:text-left">
       最近の口コミ
     </h2>
@@ -92,35 +92,47 @@ const Reviews = () => {
           onClick={() => handleSliderReviewCardClick(review)}
         >
           <div className="flex flex-col sm:flex-row justify-center sm:justify-start gap-4">
-            <div className="flex justify-center sm:justify-start">
-              <Avatar
-                className="w-20 h-20 sm:w-32 sm:h-32"
-                {...genConfig(review.subjectId)}
-              />
-            </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-center sm:text-left flex items-center">
-                <FaBook className="text-blue-500 mr-2" /> {review.subject_name}
-              </h3>
-              <p className="text-gray-700 text-center sm:text-left flex items-center">
-                <FaUser className="text-green-500 mr-2" />
-                <strong className="font-semibold">教員：</strong> {review.professor}
-              </p>
-              <p className="text-gray-700 text-center sm:text-left flex items-center">
-                <FaTasks className="text-yellow-500 mr-2" />
-                <strong className="font-semibold whitespace-nowrap">課題量：</strong>{" "}
-                {TruncateText(review.workload)}
-              </p>
-              <p className="text-gray-700 text-center sm:text-left flex items-center">
-                <FaCommentDots className="text-purple-500 mr-2" />
-                <strong className="font-semibold whitespace-nowrap">コメント：</strong>{" "}
-                {TruncateText(review.comment)}
-              </p>
-              <p className="text-gray-700 text-center sm:text-left flex items-center">
-                <FaStar className="text-yellow-500 mr-2" />
-                <strong className="font-semibold">評価：</strong>{" "}
-                {"⭐".repeat(review.rating)}
-              </p>
+              <div className="flex justify-between">
+                <Avatar className="w-24 h-24" {...genConfig(review.id)} />
+                <div className="flex items-center">
+                  <div className="flex items-center p-2">
+                    <FaStar className="text-yellow-500 mr-2" />
+                    <strong className="font-semibold">評価：</strong>
+                  </div>
+                  <div className="flex-[7] pr-2">{"⭐".repeat(review.rating)}</div>
+                </div>
+              </div>
+              <div className="flex w-full">
+                <div className="flex items-center flex-[3] p-2">
+                  <FaBook className="text-blue-500 mr-2" />
+                  <strong className="font-semibold whitespace-nowrap">講義名：</strong>
+                </div>
+                <div className="flex-[10] p-2">{review.subject_name}</div>
+              </div>
+              <div className="flex w-full">
+                <div className="flex items-center flex-[3] p-2">
+                  <FaUser className="text-green-500 mr-2" />
+                  <strong className="font-semibold whitespace-nowrap">教員名：</strong>
+                </div>
+                <div className="flex-[7] p-2">{TruncateText(review.professor)}</div>
+              </div>
+              <div className="flex w-full">
+                <div className="flex items-center flex-[3] p-2">
+                  <FaTasks className="text-yellow-500 mr-2" />
+                  <strong className="font-semibold whitespace-nowrap">課題量：</strong>
+                </div>
+                <div className="flex-[7] p-2">{TruncateText(review.workload)}</div>
+              </div>
+              <div className="flex w-full">
+                <div className="flex items-center flex-[3] p-2">
+                  <FaCommentDots size={18} className="text-purple-500 mr-1" />
+                  <strong className="font-semibold whitespace-nowrap">
+                    コメント：
+                  </strong>
+                </div>
+                <div className="flex-[7] p-2">{TruncateText(review.comment)}</div>
+              </div>
             </div>
           </div>
         </div>
