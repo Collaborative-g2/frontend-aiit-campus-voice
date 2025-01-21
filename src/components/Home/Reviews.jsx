@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaUser, FaBook, FaTasks, FaCommentDots, FaStar } from "react-icons/fa";
+import { FaUser, FaBook, FaTasks, FaCommentDots } from "react-icons/fa";
 import Avatar, { genConfig } from 'react-nice-avatar'
 import TruncateText from "../shared/TruncateText.jsx";
 import { useNavigate } from "react-router-dom";

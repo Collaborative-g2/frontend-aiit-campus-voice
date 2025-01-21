@@ -1,4 +1,4 @@
-import { FaCommentDots, FaStar, FaTasks } from "react-icons/fa";
+import { FaCommentDots, FaTasks } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Avatar, { genConfig } from "react-nice-avatar";
 import FormatDate from "../shared/FormatDate.jsx";
