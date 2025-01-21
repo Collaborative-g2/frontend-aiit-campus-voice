@@ -7,6 +7,7 @@ import Avatar, { genConfig } from 'react-nice-avatar'
 import TruncateText from "../shared/TruncateText.jsx";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import LatestReviewLogo from "../../assets/latest-review.svg";
 
 const ACV_API_BASE_URL = import.meta.env.VITE_ACV_API_BASE_URL;
 
@@ -83,7 +84,7 @@ const Reviews = () => {
   <div className="container mx-auto p-2 sm:p-6 mb-8">
     <div className="flex items-center gap-2 mb-4 sm:mb-6 justify-center">
       <p className="text-2xl sm:text-3xl font-bold">最近の口コミ</p>
-      <img src="/src/assets/latest-review.svg" alt="最近の口コミ" className="w-8 h-8" />
+      <img src={LatestReviewLogo} alt="最近の口コミ" className="w-8 h-8" />
     </div>
     <Slider {...settings} className="cursor-pointer">
       {reviews.map((review) => (
