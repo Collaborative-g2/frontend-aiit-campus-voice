@@ -1,4 +1,4 @@
-import { FaCommentDots, FaStar, FaTasks } from "react-icons/fa";
+import { FaCommentDots, FaTasks } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Avatar, { genConfig } from "react-nice-avatar";
 import FormatDate from "../shared/FormatDate.jsx";
@@ -17,7 +17,6 @@ const ReviewCard = ({ review }) => {
         <Avatar className="w-24 h-24" {...genConfig(review.id)} />
         <div className="flex items-center">
           <div className="flex items-center p-2">
-            <FaStar className="text-yellow-500 mr-2" />
             <strong className="font-semibold">評価：</strong>
           </div>
           <div className="flex-[7] p-2">{"⭐".repeat(review.rating)}</div>
