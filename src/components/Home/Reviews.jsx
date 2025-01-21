@@ -98,11 +98,10 @@ const Reviews = () => {
               <div className="flex justify-between">
                 <Avatar className="w-24 h-24" {...genConfig(review.id)} />
                 <div className="flex items-center">
-                  <div className="flex items-center p-2">
-                    <FaStar className="text-yellow-500 mr-2" />
-                    <strong className="font-semibold">評価：</strong>
+                  <div className="flex items-center p-3">
+                    <strong className="font-semibold text-lg">評価：</strong>
                   </div>
-                  <div className="flex-[7] pr-2">{"⭐".repeat(review.rating)}</div>
+                  <div className="flex-[7] pr-1 text-lg">{"⭐".repeat(review.rating)}</div>
                 </div>
               </div>
               <div className="flex w-full">
