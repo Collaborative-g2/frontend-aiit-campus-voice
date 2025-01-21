@@ -12,7 +12,7 @@ const ReviewCard = ({ review }) => {
   };
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-md relative pb-10" onClick={handleReviewCardClick}>
+    <div className="p-4 bg-white shadow-md rounded-md relative pb-10 cursor-pointer" onClick={handleReviewCardClick}>
       <div className="flex justify-between">
         <Avatar className="w-24 h-24" {...genConfig(review.id)} />
         <div className="flex items-center">
