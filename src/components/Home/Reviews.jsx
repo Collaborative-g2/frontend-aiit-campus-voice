@@ -81,10 +81,11 @@ const Reviews = () => {
 
   return (
   <div className="container mx-auto p-2 sm:p-6 mb-8">
-    <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center sm:text-left">
-      最近の口コミ
-    </h2>
-    <Slider {...settings}>
+    <div className="flex items-center gap-2 mb-4 sm:mb-6 justify-center">
+      <p className="text-2xl sm:text-3xl font-bold">最近の口コミ</p>
+      <img src="/src/assets/latest-review.svg" alt="最近の口コミ" className="w-8 h-8" />
+    </div>
+    <Slider {...settings} className="cursor-pointer">
       {reviews.map((review) => (
         <div
           key={review.id}
