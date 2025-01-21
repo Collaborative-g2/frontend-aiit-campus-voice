@@ -84,7 +84,7 @@ const Reviews = () => {
     <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center sm:text-left">
       最近の口コミ
     </h2>
-    <Slider {...settings}>
+    <Slider {...settings} className="cursor-pointer">
       {reviews.map((review) => (
         <div
           key={review.id}
