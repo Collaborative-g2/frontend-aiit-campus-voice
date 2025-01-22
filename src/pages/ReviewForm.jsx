@@ -14,6 +14,7 @@ const ReviewForm = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -24,6 +25,12 @@ const ReviewForm = () => {
     },
   });
 
+  const [formKey, setFormKey] = useState(0);
+  const resetForm = () => {
+    reset()
+    setFormKey((prevKey) => prevKey + 1);
+  };
+
   const [modalMessage, setModalMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,7 +39,7 @@ const ReviewForm = () => {
 
   const onSubmit = async (formData) => {
     if (isSubmitting) return;
-
+    
     setIsSubmitting(true);
     const jsonData = JSON.stringify(formData);
 
@@ -72,7 +79,7 @@ const ReviewForm = () => {
       <div className="px-4 sm:w-2/3 lg:w-1/2 mx-auto">
         <div className="rounded-lg shadow-lg bg-white -mt-24 py-10 md:py-12 px-4 md:px-6">
           <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form key={formKey} onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="subject_id"
                 control={control}
@@ -171,7 +178,7 @@ const ReviewForm = () => {
                           <button
                               onClick={() => {
                                 setIsModalOpen(false);
-                                window.location.reload();
+                                resetForm()
                               }}
                               className="flex items-center justify-center gap-2 w-48 bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-full"
                           >
