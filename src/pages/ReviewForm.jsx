@@ -179,6 +179,7 @@ const ReviewForm = () => {
                               onClick={() => {
                                 setIsModalOpen(false);
                                 resetForm()
+                                window.scrollTo(0, 0);
                               }}
                               className="flex items-center justify-center gap-2 w-48 bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-full"
                           >
